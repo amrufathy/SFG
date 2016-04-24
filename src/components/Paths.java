@@ -16,4 +16,21 @@ public class Paths extends ArrayList<Path> {
     public Paths() {
         super();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Paths)) {
+            return false;
+        }
+
+        for (Path path1 : this) {
+            for (Path path2 : (Paths) obj) {
+                if (!path1.equals(path2)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }

@@ -18,8 +18,8 @@ import java.util.Comparator;
  */
 public class GraphSolver {
 
-    Paths listOfForwardPaths;
-    Paths listOfCycles;
+    private Paths listOfForwardPaths;
+    private Paths listOfCycles;
 
     public GraphSolver() {
         listOfForwardPaths = new Paths();
@@ -65,7 +65,7 @@ public class GraphSolver {
 
         for (GraphNode neighbor : miniSource.getNeighbors()) {
 
-            if (neighbor.equals(source)) {
+            if (neighbor.getIndex() == source.getIndex()) {
                 Path temp = (Path) visited.clone();
                 temp.push(neighbor);
                 listOfCycles.add((Path) temp.clone());
@@ -88,20 +88,20 @@ public class GraphSolver {
             Collections.sort(cycle, new Comparator<GraphNode>() {
                 @Override
                 public int compare(GraphNode left, GraphNode right) {
-                    return (left.getIndex() > right.getIndex()) ? 1 : (left.getIndex() < right.getIndex()) ? -1 : 0;
+                    return (left.getIndex() > right.getIndex()) ? 1
+                            : (left.getIndex() < right.getIndex()) ? -1 : 0;
                 }
             });
         }
 
-        for (int i = 0; i < listOfCycles.size() - 1; i++) {
-            for (int j = 0; j < listOfCycles.size() - 1; j++) {
-                if (testCycleList.get(i).equals(testCycleList.get(j))) {
+        for (int i = 0; i < listOfCycles.size(); i++) {
+            for (int j = 0; j < listOfCycles.size(); j++) {
+                if (testCycleList.get(i).equals(testCycleList.get(j)) && i != j) {
                     listOfCycles.remove(i);
                     testCycleList.remove(i);
                 }
             }
         }
-
     }
 
     private Paths cloneList(Paths list) {
@@ -111,37 +111,4 @@ public class GraphSolver {
         }
         return clone;
     }
-
-    /*public static void main(String[] args) {
-
-     GraphNode node1 = new GraphNode(0, 0, 0);
-     GraphNode node2 = new GraphNode(1, 0, 0);
-     GraphNode node3 = new GraphNode(2, 0, 0);
-     GraphNode node4 = new GraphNode(3, 0, 0);
-     GraphNode node5 = new GraphNode(4, 0, 0);
-
-     ArrayList<GraphNode> nodes = new ArrayList<>();
-
-     node1.getNeighbors().add(node2);
-     node1.getNeighbors().add(node3);
-     node2.getNeighbors().add(node3);
-     node3.getNeighbors().add(node1);
-     node3.getNeighbors().add(node4);
-     node3.getNeighbors().add(node5);
-     node4.getNeighbors().add(node5);
-     node5.getNeighbors().add(node3);
-
-     node5.setIsSink(true);
-
-     nodes.add(node1);
-     nodes.add(node2);
-     nodes.add(node3);
-     nodes.add(node4);
-     nodes.add(node5);
-
-     findForwardPaths(node1);
-     findCycles(nodes);
-     System.out.println("bibo");
-
-     }*/
 }

@@ -19,6 +19,12 @@ public class GraphEdge {
         this.fromID = fromID;
         this.toID = toID;
     }
+    
+    public GraphEdge(int fromID, int toID, String gain) {
+        this.fromID = fromID;
+        this.toID = toID;
+        this.gain = gain;
+    }
 
     /**
      * @return the gain

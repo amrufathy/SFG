@@ -11,6 +11,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
+import solver.MasonSolver;
 
 /**
  *
@@ -50,6 +52,9 @@ public class MainWindow extends WebFrame {
         toolBar.deleteNode.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                canvas.getNodes().clear();
+                canvas.getEdges().clear();
+                canvas.repaint();
             }
         });
 
@@ -75,6 +80,16 @@ public class MainWindow extends WebFrame {
         toolBar.evaluate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                canvas.getNodes().get(canvas.getNodes().size() - 1).setIsSink(true);
+                solver = new MasonSolver(canvas.getNodes(), canvas.getEdges());
+                solver.getNonTouchingLoops();
+                String[] values = solver.calculateResult();
+                String toBePrinted = values[0]
+                        + "\n------------------------------------------------------\n"
+                        + values[1];
+
+                JOptionPane.showMessageDialog(rootPane, toBePrinted, "Transfer Function", JOptionPane.PLAIN_MESSAGE);
+
             }
         });
 
@@ -89,5 +104,5 @@ public class MainWindow extends WebFrame {
     private Canvas canvas;
     public boolean newNode = false;
     public boolean newPath = false;
-
+    private MasonSolver solver;
 }
