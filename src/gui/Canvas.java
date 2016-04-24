@@ -29,7 +29,7 @@ public class Canvas extends WebPanel {
     private Graphics2D g2d;
 
     private final Color NODE_MASTER_COLOR = Color.CYAN;
-    
+
     private MouseAdapter mouseListener;
 
     private ArrayList<GraphNode> nodes = new ArrayList<>();
@@ -197,12 +197,12 @@ public class Canvas extends WebPanel {
                     node.getY() + 50);
         }
 
+        int distance = 70;
+
         for (GraphEdge edge : getEdges()) {
 
             GraphNode from = getNodes().get(edge.getFromID());
             GraphNode to = getNodes().get(edge.getToID());
-
-            int distance = 100;
 
             QuadCurve2D edgeCurve = new QuadCurve2D.Double(
                     from.getX(),
@@ -213,10 +213,15 @@ public class Canvas extends WebPanel {
                     to.getY()
             );
 
-            distance += 50;
-
             g2d.setColor(Color.RED);
             g2d.draw(edgeCurve);
+
+            g2d.drawString(edge.getGain(),
+                    ((from.getX() + to.getX()) / 2),
+                    ((from.getY() + to.getY()) / 2) + (distance / 2));
+
+            distance += 25;
+
         }
 
         if (selectionNode != null) {
